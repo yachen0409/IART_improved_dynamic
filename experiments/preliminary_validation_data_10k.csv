@@ -1,0 +1,4 @@
+iteration,psnr_baseline,ssim_baseline,psnr_improved,ssim_improved,psnr_improved_dynamic,ssim_improved_dynamic
+5000,27.8464,0.7778,27.8449,0.7797,28.3596,0.7978
+7500,27.9956,0.7828,27.9987,0.7827,28.6824,0.8085
+10000,28.0464,0.7833,28.0274,0.7836,28.7585,0.8125
