@@ -1,0 +1,5 @@
+video_name,psnr_baseline,ssim_baseline,psnr_improved_dynamic,ssim_improved_dynamic
+calendar,21.949793,0.770789,21.947088,0.76898
+city,26.118088,0.780973,26.112969,0.781594
+foliage,24.549135,0.734655,24.554628,0.733373
+walk,28.795173,0.888938,28.758754,0.889075

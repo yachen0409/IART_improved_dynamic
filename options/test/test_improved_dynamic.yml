@@ -1,0 +1,61 @@
+# General Settings
+name: IART_Test_Improved_Dynamic
+model_type: RecurrentMixPrecisionRTModel  # Must match your training model type
+scale: 4
+num_gpu: 1
+manual_seed: 0
+dd
+# ----------------- DATASET CONFIG -----------------
+datasets:
+  test_1:
+    name: REDS4
+    type: VideoRecurrentTestDataset
+    
+    # 👇 UPDATE THESE PATHS TO YOUR TESTING DATA
+    dataroot_gt: ../test_data/frames  # <--- Path to High-Res Ground Truth
+    dataroot_lq: ../test_data/frames_bicubic  # <--- Path to Low-Res Input
+
+    # Cache settings
+    cache_data: false  # Set to false to save RAM
+    io_backend:
+      type: disk
+
+    num_frame: -1  # -1 means test all frames in the folder
+
+# ----------------- NETWORK ARCHITECTURE -----------------
+# (Kept exactly the same as training to ensure weights load correctly)
+network_g:
+  type: IART
+  mid_channels: 64
+  embed_dim: 120
+  depths: [6, 6, 6]
+  num_heads: [6, 6, 6]
+  window_size: [3, 8, 8]
+  num_frames: 3
+  img_size : 64
+  patch_size : 1
+  cpu_cache_length: 100
+  is_low_res_input: True
+  # Ensure this path exists on your machine
+  spynet_path: experiments/pretrained_models/flownet/spynet_sintel_final-3d2a1287.pth
+
+# ----------------- MODEL PATH -----------------
+path:
+  # 👇 UPDATE THIS TO YOUR TRAINED .PTH FILE
+  pretrain_network_g: experiments/IART_REDS_N5_60K_Improved_Dynamic/models/net_g_60000.pth # <--- Your trained model path
+  strict_load_g: true
+
+# ----------------- METRICS & SAVING -----------------
+val:
+  save_img: true  # Change to false if you don't want to save output images
+  suffix: ~  # Suffix for saved images
+
+  metrics:
+    psnr: 
+      type: calculate_psnr
+      crop_border: 0
+      test_y_channel: false  # Kept consistent with your training config
+    ssim: 
+      type: calculate_ssim
+      crop_border: 0
+      test_y_channel: false
